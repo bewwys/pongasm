@@ -18,4 +18,4 @@ On linux/macos
 * run on command line in source directory: **nasm pong.asm -o pong**
 
 ## Run
-* run on command line in source direectory: **qemu-system-i386 pong**
+* run on command line in source directory: **qemu-system-i386 pong**

@@ -49,7 +49,7 @@ main_loop:
 
 	jmp main_loop
 
-;; TODO(): Ok my logic here is a bit crapy but it's work. Maybe refactor a little bit ???
+;; TODO(): Ok my logic here is a bit crapy but it works. Maybe refactor a little bit ???
 
 draw_rect:
 	;; Get the right row
