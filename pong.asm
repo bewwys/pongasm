@@ -26,6 +26,19 @@ org 0x7C00
 	pixel_location: dw 0
 
 ;;section .text
+
+test_keyboard:
+	xor ax, ax
+	mov ss, ax
+	mov sp, 0x0
+	
+	mov ah, 0x0
+	int 0x16
+
+	mov ah, 0x0E
+	int 0x10
+	jmp test_keyboard
+
 	; VGA mode 0x13
 	; 320x200 256 colors
 	mov ah, 0x00
@@ -42,6 +55,7 @@ main_loop:
 	call sleep
 	mov ch, 0x0
 	call draw_rect
+
 	;; Set next rect position
 	mov word [count_j], 0
 	inc word [y_pos]
