@@ -3,7 +3,7 @@ org 0x7C00
 %define VIDEO_BUFFER_LOCATION 0xA000
 
 %define WIDTH  320
-%define HEIGHT 260
+%define HEIGHT 200
 
 %define RECT_WIDTH  5 ;; in pixel
 %define RECT_HEIGHT 5 ;; in pixel
@@ -27,20 +27,9 @@ org 0x7C00
 
 ;;section .text
 
-test_keyboard:
-	xor ax, ax
-	mov ss, ax
-	mov sp, 0x0
-	
-	mov ah, 0x0
-	int 0x16
-
-	mov ah, 0x0E
-	int 0x10
-	jmp test_keyboard
-
 	; VGA mode 0x13
 	; 320x200 256 colors
+set_video_mode:
 	mov ah, 0x00
 	mov al, 0x13
 	int 0x10
@@ -56,12 +45,37 @@ main_loop:
 	mov ch, 0x0
 	call draw_rect
 
+;; TODO(): Fixing blocking keyboard
+
+;; Keyboard handling
+	xor ax, ax
+	mov ss, ax
+	mov sp, 0x0
+	
+	mov ah, 0x0
+	int 0x16
+	
+	cmp ah, 0x50
+	je inc_y_pos
+	cmp ah, 0x48
+	je dec_y_pos
+
+testf:
 	;; Set next rect position
 	mov word [count_j], 0
-	inc word [y_pos]
 	cmp word [y_pos], HEIGHT
 
 	jmp main_loop
+
+inc_y_pos:
+	inc word [y_pos]
+	jmp testf
+
+dec_y_pos:
+	dec word [y_pos]
+	jmp testf
+
+
 
 ;; TODO(): Ok my logic here is a bit crapy but it works. Maybe refactor a little bit ???
 
